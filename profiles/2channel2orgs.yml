@@ -13,8 +13,8 @@ pte: {
     transMode: "Constant",
     nProcPerOrg: 8,
     nRequest: 0,
-    runDur: 43200,
-    targetPeers: "OrgAchros",
+    runDur: 120,
+    targetPeers: "OrgAnchor",
     peerFailover: FALSE,
     ordererFailover: TRUE,
     burstOpt: {

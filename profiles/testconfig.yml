@@ -30,3 +30,7 @@ org4p8:
   - name: "4orgs-8peers-endorsers-1channel"
     extra: "tool_type=pte pteenv=1channel4orgs chaincode=samplejs"
     skip_tags: "code,make,cleanfabric,composersetup"
+org2p4:
+  - name: "FAB-7204"
+    extra: "tool_type=pte pteenv=2channel2orgs chaincode=samplejs"
+    skip_tags: "code,make,cleanfabric,composersetup"
