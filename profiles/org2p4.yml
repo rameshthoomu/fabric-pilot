@@ -7,7 +7,7 @@ fabric:
     admin: admin
     adminpw: adminpw
     image_tag: stable
-  helper_tag: "x86_64-0.4.8"
+  helper_tag: "amd64-0.4.8"
   network: 
     wfabric001: 
       cas: 
