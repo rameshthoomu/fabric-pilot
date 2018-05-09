@@ -2,12 +2,12 @@
 GERRIT_REFSPEC: ""
 GIT_URL: "http://gerrit.hyperledger.org/r/fabric"
 fabric: 
-  baseimage_tag: "x86_64-1.1.0"
+  baseimage_tag: "stable"
   ca: 
     admin: admin
     adminpw: adminpw
-    image_tag: x86_64-1.1.0
-  helper_tag: "x86_64-0.4.7"
+    image_tag: stable
+  helper_tag: "x86_64-0.4.8"
   network: 
     wfabric001: 
       cas: 
@@ -60,6 +60,8 @@ fabric:
   peer_db: goleveldb
   repo: 
     bin: "http://10.10.25.61/flbin.tar.gz"
-    url: hyperledger/
+    username: "docker"
+    password: "docker"
+    url: nexus3.hyperledger.org:10001/hyperledger/
   ssh_user: ubuntu
   tls: true
