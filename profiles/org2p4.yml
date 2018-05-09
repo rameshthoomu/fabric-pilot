@@ -63,5 +63,6 @@ fabric:
     username: "docker"
     password: "docker"
     url: nexus3.hyperledger.org:10001/hyperledger/
+    bin: "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/linux-amd64-stable-f65e128/hyperledger-fabric-stable-linux-amd64-stable-f65e128.tar.gz"
   ssh_user: ubuntu
   tls: true
