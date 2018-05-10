@@ -187,7 +187,7 @@ chaincode:
         path:
         name:
 
-    builder: {{ fabric.repo.url }}/fabric-ccenv:stable
+    builder: $(DOCKER_NS)/fabric-ccenv:stable
 {% if project_version | version_compare('1.1.0','>=') %}
     pull: false
 {% endif %}
