@@ -63,6 +63,6 @@ fabric:
 #    username: "docker"
 #    password: "docker"
     url: hyperledger/
-    bin: ""
+    bin: "http://10.10.25.61/flbin.tar.gz"
   ssh_user: ubuntu
   tls: true
