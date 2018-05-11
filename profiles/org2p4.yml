@@ -59,7 +59,7 @@ fabric:
       zookeepers: []
   peer_db: goleveldb
   repo: 
-    bin: "http://10.10.25.61/flbin.tar.gz"
+#    bin: "http://10.10.25.61/flbin.tar.gz"
 #    username: "docker"
 #    password: "docker"
     url: hyperledger/
