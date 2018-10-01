@@ -32,18 +32,18 @@ function cloneRepo(){
         branchName=$2
         echo "########## ${projectName}"
         # Clone repository
-        git clone --single-branch -b $2 --depth=1 git://cloud.hyperledger.org/mirror/$1 $WD
+        git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "$WD"
         echo "Clone and checkout to the given branch"
-        git checkout ${branchName} > /dev/null 2>&1
-        if [ $? -ne 0 ]; then
+        if ! git checkout "${branchName}" > /dev/null 2>&1
+        then
                 echo "------> Branch ${branchName} not found - Checkout to master"
                 git checkout master
         fi
-        if [ -d ${WD} ]; then # if directory exists
+        if [ -d "${WD}" ]; then # if directory exists
         # Be at project root directory
-            cd ${WD}
+            cd "${WD}" || exit
             COMMIT=$(git log -1 --pretty=format:"%h")
-            echo "------> "Commit SHA is ${COMMIT}"
+            echo "------> Commit SHA is ${COMMIT}"
         else
             echo "------> Directory not found. Clone again"
             exit 1
@@ -55,43 +55,43 @@ function buildImages(){
         projectName=$1
         branchName=$2
         echo "########## ${projectName}"
-        if [ ${projectName} = "fabric" ]; then
+        if [ "${projectName}" = "fabric" ]; then
                 echo "------> Build artifacts for ${projectName}"
-                if [ "${branchName}" = "release-1.0" ] ; then # only on release-1.0 branch
-                       for ${TARGET} in ${FABRIC_1_0_TARGETS[*]}; do
+                if [ "${branchName}" = "release-1.0" ]; then # only on release-1.0 branch
+                       for TARGET in ${FABRIC_1_0_TARGETS[*]}; do
                             # Build artifacts
-                            make ${TARGET} > /dev/null 2>&1
-                            if [ $? -ne 0 ]; then
+                           if ! make "${TARGET}" > /dev/null 2>&1
+                           then
                                 echo "ERROR: ------> make ${TARGET} failed"
                                 exit 1
                             fi
                        done
                 else # otherthan release-1.0 branch
-                    for ${TARGET} in ${FABRIC_TARGETS}
+                    for TARGET in "${FABRIC_TARGETS[@]}"; do
                         # Build artifacts
-                        make ${TARGET} > /dev/null 2>&1
-                        if [ $? -ne 0 ]; then
+                        if ! make "${TARGET}" > /dev/null 2>&1
+                        then
                             echo "ERROR: ------> make ${TARGET} failed"
                             exit 1
                         fi
                     done
                 fi
-        elif [ ${projectName} = "fabric-ca" ]; then
+        elif [ "${projectName}" = "fabric-ca" ]; then
                 echo "------> Build artifacts for ${projectName}"
-                if [ ${branchName} = "release-1.0" ] ; then # only on release-1.0 branch
-                       for ${TARGET} in ${FABRIC_CA_1_0_TARGETS[*]}; do
+                if [ "${branchName}" = "release-1.0" ]; then # only on release-1.0 branch
+                       for TARGET in ${FABRIC_CA_1_0_TARGETS[*]}; do
                             # Build artifacts
-                            make ${TARGET} > /dev/null 2>&1
-                            if [ $? -ne 0 ]; then
+                           if ! make "${TARGET}" > /dev/null 2>&1
+                           then
                                 echo "ERROR: ------> make ${TARGET} failed"
                                 exit 1
                             fi
                        done
                 else # otherthan release-1.0 branch
-                    for ${TARGET} in ${FABRIC_CA_TARGETS}
+                    for TARGET in "${FABRIC_CA_TARGETS[@]}"; do
                         # Build artifacts
-                        make ${TARGET} > /dev/null 2>&1
-                        if [ $? -ne 0 ]; then
+                        if ! make "${TARGET}" > /dev/null 2>&1
+                        then
                             echo "ERROR: ------> make ${TARGET} failed"
                             exit 1
                         fi
@@ -101,7 +101,6 @@ function buildImages(){
 } # Close for buildImages
 
 function buildAllImages() {
-        BRANCH_NAME=$1
         getArch
         cloneRepo fabric branch_name
 	export_Go fabric
@@ -114,11 +113,11 @@ function buildAllImages() {
 
 function export_Go {
     echo "-------> Export GOPATH"
-    cd ${BASE_DIR}/${projectName}
+    cd "${BASE_DIR}"/"${projectName}" || exit
     GO_VER=$(cat ci.properties | grep GO_VER | cut -d "=" -f 2)
-    echo "------> GO_VER" ${GO_VER}
+    echo "------> GO_VER: ${GO_VER}"
     OS_VER=$(dpkg --print-architecture)
-    echo "------> OS_VER" ${OS_VER}
+    echo "------> OS_VER: ${OS_VER}"
     export GOROOT=/opt/go/go${GO_VER}.linux.${OS_VER}
     export PATH=${GOROOT}/bin:${PATH}
 }
@@ -126,7 +125,7 @@ function export_Go {
 function pullJavaImages() {
         getArch
         echo "------> Pull Docker Images"
-        if [ ${ARCH} -eq "amd64" ]; then # JAVAENV is not available on other platforms
+        if [ "${ARCH}" = "amd64" ]; then # JAVAENV is not available on other platforms
             if [ "${branchName}" = "master" ]; then
                 export STABLE_VERSION=1.4.0-stable
                 export JAVA_ENV_TAG=1.4.0
@@ -134,9 +133,9 @@ function pullJavaImages() {
                 export STABLE_VERSION=1.3.0-stable
                 export JAVA_ENV_TAG=1.3.0
             fi
-            docker pull $NEXUS_BASE_URL/$ORG_NAME-$IMAGE:$ARCH-$STABLE_VERSION
-            docker tag $NEXUS_BASE_URL/$ORG_NAME-$IMAGE:$ARCH-$STABLE_VERSION $ORG_NAME-$IMAGE
-            docker tag $NEXUS_BASE_URL/$ORG_NAME-$IMAGE:$ARCH-$STABLE_VERSION $ORG_NAME-$IMAGE:${ARCH}-$JAVA_ENV_TAG
+            docker pull $NEXUS_BASE_URL/$ORG_NAME-$JAVA_IMAGE:"${ARCH}"-$STABLE_VERSION
+            docker tag $NEXUS_BASE_URL/$ORG_NAME-$JAVA_IMAGE:"${ARCH}"-$STABLE_VERSION $ORG_NAME-"${JAVA_IMAGE}"
+            docker tag $NEXUS_BASE_URL/$ORG_NAME-$JAVA_IMAGE:"${ARCH}"-$STABLE_VERSION $ORG_NAME-"${JAVA_IMAGE}":"${ARCH}"-$JAVA_ENV_TAG
         fi
 }
 
@@ -145,16 +144,16 @@ function pull_Images() {
         getArch
         # export image list
         if [ "${projectName}" = "fabric" ]; then
-            export IMAGES_LIST=${FABRIC_IMAGES}
+            export IMAGES_LIST="${FABRIC_IMAGES[*]}"
         else
-            export IMAGES_LIST=${FABRIC_CA_IMAGES}
+            export IMAGES_LIST="${FABRIC_CA_IMAGES[*]}"
         fi
         # pull images
         for IMAGES in ${IMAGES_LIST[*]}; do
-            docker pull $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION
-            docker tag $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION $ORG_NAME-$IMAGES:$ARCH-$RELEASE_VERSION
-            docker tag $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION $ORG_NAME-$IMAGES
-            docker rmi -f $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION
+            docker pull $NEXUS_BASE_URL/$ORG_NAME-"${IMAGES}":"${ARCH}"-$STABLE_VERSION
+            docker tag $NEXUS_BASE_URL/$ORG_NAME-"${IMAGES}":"${ARCH}"-$STABLE_VERSION $ORG_NAME-"${IMAGES}":"${ARCH}"-"$RELEASE_VERSION"
+            docker tag $NEXUS_BASE_URL/$ORG_NAME-"${IMAGES}":"${ARCH}"-$STABLE_VERSION $ORG_NAME-"${IMAGES}"
+            docker rmi -f $NEXUS_BASE_URL/$ORG_NAME-"${IMAGES}":"${ARCH}"-$STABLE_VERSION
         done
 }
 
