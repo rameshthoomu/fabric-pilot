@@ -30,18 +30,22 @@ function getArch() {
 function cloneRepo(){
         projectName=$1
         branchName=$2
-        echo "########## ${projectName}"
+        echo "########## $1"
         # Clone repository
+	if [ -d "${WD}" ]; then # if directory exists
+		rm -rf "${WD}"
+	fi
         git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "$WD"
         echo "Clone and checkout to the given branch"
-        if ! git checkout "${branchName}" > /dev/null 2>&1
+	cd "${WD}" || exit
+        if ! git checkout "$2" > /dev/null 2>&1
         then
-                echo "------> Branch ${branchName} not found - Checkout to master"
+                echo "------> Branch "$2" not found - Checkout to master"
+		cd "${WD}" || exit
                 git checkout master
         fi
         if [ -d "${WD}" ]; then # if directory exists
         # Be at project root directory
-            cd "${WD}" || exit
             COMMIT=$(git log -1 --pretty=format:"%h")
             echo "------> Commit SHA is ${COMMIT}"
         else
