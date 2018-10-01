@@ -32,7 +32,7 @@ function cloneRepo(){
         branchName=$2
         echo "########## ${projectName}"
         # Clone repository
-        git clone --single-branch -b ${branchName} --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
+        git clone --single-branch -b $2 --depth=1 git://cloud.hyperledger.org/mirror/$1 $WD
         echo "Clone and checkout to the given branch"
         git checkout ${branchName} > /dev/null 2>&1
         if [ $? -ne 0 ]; then
@@ -157,8 +157,6 @@ function pull_Images() {
             docker rmi -f $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION
         done
 }
-
-######
 
 cloneRepo fabric master
 buildImages fabric
