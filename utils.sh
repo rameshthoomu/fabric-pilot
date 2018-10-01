@@ -35,11 +35,10 @@ function cloneRepo(){
         # Clone repository
 	if [ -d "${WD}" ]; then # if directory exists
 		rm -rf "${WD}"
+		mkdir -p "${WD}"
 	fi
-        git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "$WD"
-        echo "Clone and checkout to the given branch"
-	cd "${WD}" || exit
-        if ! git checkout "$2" > /dev/null 2>&1
+	echo "Clone and checkout to the given branch"
+        if ! git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "$WD" > /dev/null 2>&1
         then
                 echo "------> Branch "$2" not found - Checkout to master"
 		cd "${WD}" || exit
