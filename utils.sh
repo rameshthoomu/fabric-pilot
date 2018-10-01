@@ -40,8 +40,8 @@ function cloneRepo(){
 		     echo "------> "${WD}" is still here"
 		else
 		     echo "------> Create a directory"
-		mkdir -p "${WD}"
-		ls "${WD}"
+		     mkdir -p "${WD}"
+		     ls "${WD}"
 		fi
 	fi
 	echo "Clone and checkout to the given branch"
@@ -169,5 +169,5 @@ function pull_Images() {
         done
 }
 
-cloneRepo fabric master
+cloneRepo fabric maste
 buildImages fabric
