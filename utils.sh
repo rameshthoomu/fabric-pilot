@@ -157,3 +157,8 @@ function pull_Images() {
             docker rmi -f $NEXUS_BASE_URL/$ORG_NAME-$IMAGES:$ARCH-$STABLE_VERSION
         done
 }
+
+######
+
+cloneRepo "fabric" "master"
+buildImages "fabric"
