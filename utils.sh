@@ -144,7 +144,7 @@ function pullJavaImages() {
 function pull_Images() {
         getArch
         # export image list
-        if [ ${projectName} -eq "fabric" ]; then
+        if [ "${projectName}" = "fabric" ]; then
             export IMAGES_LIST=${FABRIC_IMAGES}
         else
             export IMAGES_LIST=${FABRIC_CA_IMAGES}
