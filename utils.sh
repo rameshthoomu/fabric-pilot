@@ -112,7 +112,7 @@ function buildAllImages() {
 
 } # Close buildAllImages
 
-function export_Go{
+function export_Go {
     echo "-------> Export GOPATH"
     cd ${BASE_DIR}/${projectName}
     GO_VER=$(cat ci.properties | grep GO_VER | cut -d "=" -f 2)
@@ -123,7 +123,7 @@ function export_Go{
     export PATH=${GOROOT}/bin:${PATH}
 }
 
-function pullJavaImages(){
+function pullJavaImages() {
         getArch
         echo "------> Pull Docker Images"
         if [ ${ARCH} -eq "amd64" ]; then # JAVAENV is not available on other platforms
