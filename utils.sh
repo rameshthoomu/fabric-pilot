@@ -103,11 +103,11 @@ function buildImages(){
 function buildAllImages() {
         BRANCH_NAME=$1
         getArch
-        export_Go fabric
         cloneRepo fabric branch_name
+	export_Go fabric
         buildImages fabric branch_name
-        export_Go fabric-ca
         cloneRepo fabric-ca branch_name
+	export_Go fabric-ca
         buildImages fabric-ca branch_name
 
 } # Close buildAllImages
@@ -144,7 +144,7 @@ function pullJavaImages(){
 function pull_Images() {
         getArch
         # export image list
-        if [ "${projectName}" = "fabric" ]; then
+        if [ ${projectName} -eq "fabric" ]; then
             export IMAGES_LIST=${FABRIC_IMAGES}
         else
             export IMAGES_LIST=${FABRIC_CA_IMAGES}
