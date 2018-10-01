@@ -39,6 +39,7 @@ function cloneRepo(){
 		if [ -d "${WD}" ]; then # if directory exists
 		     echo "------> "${WD}" is still here"
 		else
+		     echo "------> Create a directory"
 		mkdir -p "${WD}"
 		ls "${WD}"
 		fi
