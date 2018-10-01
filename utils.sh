@@ -14,7 +14,7 @@ BASE_DIR=${WORKSPACE}/gopath/src/github.com/hyperledger
 NEXUS_BASE_URL=nexus3.hyperledger.org:10001
 ORG_NAME=hyperledger/fabric
 JAVA_IMAGE=javaenv
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${PROJECT}"
+WD="${WORKSPACE}/gopath/src/github.com/hyperledger/$1"
 
 # get arch
 function getArch() {
