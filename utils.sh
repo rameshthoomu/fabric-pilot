@@ -36,8 +36,12 @@ function cloneRepo(){
 	if [ -d "${WD}" ]; then # if directory exists
 	 	echo "------> Found Directory"
 		rm -rf "${WD}"
+		if [ -d "${WD}" ]; then # if directory exists
+		     echo "------> "${WD}" is still here"
+		else
 		mkdir -p "${WD}"
 		ls "${WD}"
+		fi
 	fi
 	echo "Clone and checkout to the given branch"
         if ! git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "${WD}"
