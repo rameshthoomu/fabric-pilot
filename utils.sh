@@ -160,5 +160,5 @@ function pull_Images() {
 
 ######
 
-cloneRepo "fabric" "master"
-buildImages "fabric"
+cloneRepo fabric master
+buildImages fabric
