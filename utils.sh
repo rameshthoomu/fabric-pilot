@@ -46,6 +46,7 @@ function cloneRepo(){
         fi
         if [ -d "${WD}" ]; then # if directory exists
         # Be at project root directory
+	    cd "${WD}"
             COMMIT=$(git log -1 --pretty=format:"%h")
             echo "------> Commit SHA is ${COMMIT}"
         else
