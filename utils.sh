@@ -40,7 +40,7 @@ function cloneRepo(){
 		ls "${WD}"
 	fi
 	echo "Clone and checkout to the given branch"
-        if ! git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "$WD"
+        if ! git clone --single-branch -b "$2" --depth=1 git://cloud.hyperledger.org/mirror/"$1" "${WD}"
         then
                 echo "------> Branch "$2" not found - Checkout to master"
 		cd "${WD}" || exit
