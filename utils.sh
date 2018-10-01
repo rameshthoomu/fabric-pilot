@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash +x
 
 # exit on the first error
 set -o pipefail
@@ -28,7 +28,7 @@ function getArch() {
 
 # Here $1 is the project name $2 is branch name
 function cloneRepo(){
-	WD="${WORKSPACE}/gopath/src/github.com/hyperledger/$1"
+	WD=${WORKSPACE}/gopath/src/github.com/hyperledger/$1
         projectName=$1
         branchName=$2
         echo "########## $1"
